@@ -171,13 +171,6 @@ unless SKIP_ACTIVE_RECORD
           school.reload.country_id.should == country.id
         end
 
-        it "calls through to belongs_to_active_hash if it's an ActiveHash object" do
-          School.belongs_to :city
-          city = City.create
-          school = School.create :city_id => city.id
-          school.city.should == city
-        end
-
         it "returns nil when the belongs_to association class can't be autoloaded" do
           # Simulate autoloader
           allow_any_instance_of(String).to receive(:constantize).and_raise(LoadError, "Unable to autoload constant NonExistent")
