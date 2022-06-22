@@ -22,3 +22,4 @@ platforms :ruby do
 end
 
 gem 'activerecord', '>= 2.2.2'
+gem 'psych', '> 4.0.0'
