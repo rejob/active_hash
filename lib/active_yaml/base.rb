@@ -19,7 +19,7 @@ module ActiveYaml
 
       private
       def load_path(path)
-        Psych.safe_load_file(path)
+        Psych.safe_load_file(path, aliases: true)
       end
     end
   end
