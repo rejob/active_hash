@@ -1,3 +1,6 @@
+2023-12-18 (v2.3.1)
+  - DELETE ActiveHash::Associations::ActiveRecordExtensions#belongs_toを削除した 451e52b4f4a6b327268e87805f02b86d951d08c5
+  - MOD ruby3からのPscyh4対応 505d56d14eefa18e4ca4b303e3973bf03adbfec8
 2019-09-28 (v2.3.0)
   - Add ::scope method (inspired by ActiveRecord) [#173](https://github.com/zilkey/active_hash/pull/173)
   - Let `.find(nil)` raise ActiveHash::RecordNotFound (inspired by ActiveRecord) [#174](https://github.com/zilkey/active_hash/pull/174)
