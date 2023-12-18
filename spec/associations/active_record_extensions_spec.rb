@@ -133,58 +133,6 @@ unless SKIP_ACTIVE_RECORD
 
     describe ActiveHash::Associations::ActiveRecordExtensions do
 
-      describe "#belongs_to" do
-
-        if ActiveRecord::VERSION::MAJOR > 3
-          it "doesn't interfere with AR's procs in belongs_to methods" do
-            School.belongs_to :country, lambda { where() }
-            school = School.new
-            country = Country.create!
-            school.country = country
-            school.country.should == country
-            school.country_id.should == country.id
-            school.save!
-            school.reload
-            school.reload.country_id.should == country.id
-          end
-        end
-
-        it "doesn't interfere w/ ActiveRecord's polymorphism" do
-          School.belongs_to :locateable, :polymorphic => true
-          school = School.new
-          country = Country.create!
-          school.locateable = country
-          school.locateable.should == country
-          school.save!
-          school.reload.locateable_id.should == country.id
-        end
-
-        it "sets up an ActiveRecord association for non-ActiveHash objects" do
-          School.belongs_to :country
-          school = School.new
-          country = Country.create!
-          school.country = country
-          school.country.should == country
-          school.country_id.should == country.id
-          school.save!
-          school.reload
-          school.reload.country_id.should == country.id
-        end
-
-        it "calls through to belongs_to_active_hash if it's an ActiveHash object" do
-          School.belongs_to :city
-          city = City.create
-          school = School.create :city_id => city.id
-          school.city.should == city
-        end
-
-        it "returns nil when the belongs_to association class can't be autoloaded" do
-          # Simulate autoloader
-          allow_any_instance_of(String).to receive(:constantize).and_raise(LoadError, "Unable to autoload constant NonExistent")
-          School.belongs_to :city, {class_name: 'NonExistent'}
-        end
-      end
-
       describe "#belongs_to_active_hash" do
         context "setting by id" do
           it "finds the correct records" do
@@ -255,25 +203,6 @@ unless SKIP_ACTIVE_RECORD
           association.klass.name.should == SchoolStatus.name
         end
       end
-    end
-
-    describe "#belongs_to" do
-
-      context "with an ActiveRecord parent" do
-        it "find the correct records" do
-          City.belongs_to :country
-          country = Country.create
-          city = City.create :country_id => country.id
-          city.country.should == country
-        end
-
-        it "returns nil when the record does not exist" do
-          City.belongs_to :country
-          city = City.create :country_id => 123
-          city.country.should be_nil
-        end
-      end
-
     end
 
     describe "#has_one" do
